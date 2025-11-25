@@ -1,9 +1,21 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
+canvas {
+    max-width: 50%;
+    height: auto;
+    margin: 20px auto;
+    display: block;
+}
+
+.user-info {
+    background: #f9f9f9;
+    padding: 10px 15px;
+    border-left: 4px solid #8B4513;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.user-info p {
+    margin: 5px 0;
+    font-size: 14px;
 }
 
 .container {

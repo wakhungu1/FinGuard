@@ -1,8 +1,16 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) header('Location: index.php');
+require 'config.php';
 require 'functions.php';
 $user_id = $_SESSION['user_id'];
+
+// Fetch user info
+$stmt = $pdo->prepare("SELECT email, phone FROM users WHERE id = ?");
+$stmt->execute([$user_id]);
+$user = $stmt->fetch();
+$user_name = $user['email'] ?? $user['phone'] ?? 'User';
+$current_date = date('F j, Y');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['income'])) {
@@ -38,6 +46,10 @@ $overspending = isOverspending($user_id);
 <body>
     <div class="container">
         <h2>Welcome to FinGuard</h2>
+        <div class="user-info">
+            <p><strong>User:</strong> <?php echo htmlspecialchars($user_name); ?></p>
+            <p><strong>Date:</strong> <?php echo htmlspecialchars($current_date); ?></p>
+        </div>
         <?php if ($overspending): ?>
             <p class="alert">You're overspending! Try to save more.</p>
         <?php endif; ?>

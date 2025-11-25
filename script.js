@@ -6,6 +6,25 @@ function renderChart(canvasId, data) {
     const ctx = el.getContext('2d');
     const dataset = [Number(data.income) || 0, Number(data.expenses) || 0, Number(data.savings) || 0];
 
+    // Plugin to display percentage on pie chart
+    const percentagePlugin = {
+        id: 'percentageLabel',
+        afterDatasetsDraw(chart) {
+            const { ctx: chartCtx, chartArea, data } = chart;
+            chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
+                const { x, y } = datapoint.tooltipPosition();
+                const value = data.datasets[0].data[index];
+                const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                chartCtx.font = 'bold 12px Arial';
+                chartCtx.fillStyle = '#fff';
+                chartCtx.textAlign = 'center';
+                chartCtx.textBaseline = 'middle';
+                chartCtx.fillText(percentage + '%', x, y);
+            });
+        }
+    };
+
     const config = {
         type: 'pie',
         data: {
@@ -15,7 +34,15 @@ function renderChart(canvasId, data) {
                 backgroundColor: ['#8B4513', '#DC143C', '#228B22'] // Burnt Orange, Red, Green
             }]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        },
+        plugins: [percentagePlugin]
     };
 
     if (charts[canvasId]) {
