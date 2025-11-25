@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
+$daily = getDailyReport($user_id);
 $weekly = getWeeklyReport($user_id);
 $monthly = getMonthlyReport($user_id);
 $yearly = getYearlyReport($user_id);
@@ -36,23 +37,26 @@ $overspending = isOverspending($user_id);
 </head>
 <body>
     <div class="container">
-        <h2>Welcome back!</h2>
+        <h2>Welcome to FinGuard</h2>
         <?php if ($overspending): ?>
             <p class="alert">You're overspending! Try to save more.</p>
         <?php endif; ?>
 
         <h3>Add Monthly Income</h3>
-        <form method="POST">
+        <form id="incomeForm" method="POST">
             <input type="number" name="income" step="0.01" placeholder="Amount" required>
             <button type="submit">Add Income</button>
         </form>
 
         <h3>Add Daily Expense</h3>
-        <form method="POST">
+        <form id="expenseForm" method="POST">
             <input type="number" name="expense" step="0.01" placeholder="Amount" required>
             <input type="text" name="category" placeholder="Category" required>
             <button type="submit">Add Expense</button>
         </form>
+
+        <h3>Daily Report</h3>
+        <canvas id="dailyChart"></canvas>
 
         <h3>Weekly Report</h3>
         <canvas id="weeklyChart"></canvas>
@@ -61,17 +65,26 @@ $overspending = isOverspending($user_id);
         <canvas id="monthlyChart"></canvas>
 
         <h3>Yearly Report</h3>
-        <p>Income: $<?php echo $yearly['income']; ?>, Expenses: $<?php echo $yearly['expenses']; ?>, Savings: $<?php echo $yearly['savings']; ?></p>
+        <p id="yearlySummary">Income: $<?php echo $yearly['income']; ?>, Expenses: $<?php echo $yearly['expenses']; ?>, Savings: $<?php echo $yearly['savings']; ?></p>
 
         <a href="logout.php">Logout</a>
     </div>
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
     <script>
         // Pass PHP data to JS
+        const dailyData = <?php echo json_encode($daily); ?>;
         const weeklyData = <?php echo json_encode($weekly); ?>;
         const monthlyData = <?php echo json_encode($monthly); ?>;
+        renderChart('dailyChart', dailyData);
         renderChart('weeklyChart', weeklyData);
         renderChart('monthlyChart', monthlyData);
+        const yearlyData = <?php echo json_encode($yearly); ?>;
+        document.addEventListener('DOMContentLoaded', function() {
+            const yearlyEl = document.getElementById('yearlySummary');
+            if (yearlyEl) {
+                yearlyEl.textContent = `Income: $${yearlyData.income}, Expenses: $${yearlyData.expenses}, Savings: $${yearlyData.savings}`;
+            }
+        });
     </script>
 </body>
 </html>

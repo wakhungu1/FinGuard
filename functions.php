@@ -44,6 +44,16 @@ function getYearlyReport($user_id) {
     ];
 }
 
+function getDailyReport($user_id) {
+    $start = date('Y-m-d');
+    $end = date('Y-m-d');
+    return [
+        'income' => getUserData($user_id, 'incomes', $start, $end),
+        'expenses' => getUserData($user_id, 'expenses', $start, $end),
+        'savings' => calculateSavings($user_id, $start, $end)
+    ];
+}
+
 function isOverspending($user_id) {
     $monthly = getMonthlyReport($user_id);
     return $monthly['expenses'] > $monthly['income'];
