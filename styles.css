@@ -39,6 +39,109 @@ h1, h2, h3 {
     color: white;
     text-decoration: none;
     border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #DC143C; /* Red */
+}
+
+.btn-primary {
+    background: #4169E1; /* Royal Blue */
+}
+
+.btn-primary:hover {
+    background: #800080; /* Purple */
+}
+
+.btn-secondary {
+    background: #228B22; /* Green */
+}
+
+.btn-secondary:hover {
+    background: #DC143C; /* Red */
+}
+
+.auth-container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.auth-section {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.auth-section h2 {
+    color: #8B4513;
+    margin-top: 0;
+}
+
+.auth-section p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.divider {
+    font-size: 18px;
+    color: #8B4513;
+    font-weight: bold;
+    align-self: center;
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .divider {
+        display: block;
+        margin: 10px 0;
+    }
+}
+
+.features {
+    background: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 40px;
+}
+
+.features h3 {
+    color: #8B4513;
+    margin-top: 0;
+}
+
+.features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.features li {
+    padding: 8px 0;
+    font-size: 15px;
+    color: #333;
+}
+
+.tagline {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
 }
 
 .btn:hover {
